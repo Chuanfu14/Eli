@@ -51,6 +51,7 @@ def create_arithmetic_problem_prompt(a, b, user_input):
         print("What is " + str(a) + " to the power of " + str(b) + " ?")
     elif user_input == 4:
         print("What does " + (str(a)) + " squared + " + str(b) + " squared make c, the hypotenuse ?")
+        print("Please round your answer to the nearest 2 decimal places.")
 
 
 # addition
@@ -70,14 +71,14 @@ def exponential(a, b):
 
 # pythagorean
 def pythagorean(a, b):
-    return math.sqrt(a ** 2 + b ** 2)
+    return round(math.sqrt(a ** 2 + b ** 2), 2)
 
 
 # this function ensures user only input numbers
 def validate_user_answer():
     while True:
         try:
-            user_answer = int(input("Your answer is: "))
+            user_answer = float(input("Your answer is: "))
         except ValueError:
             print("Bad Input! Please enter your answer in numbers.")
         else:
@@ -121,23 +122,22 @@ def check_answer(user_input, a, b, user_answer):
 def main():
     num_correct = 0  # initiate counter
     problem_solved = 0  # initiate counter
-    for x in range(num_of_questions()):
-        (user_prompt())
-        user_input = user_choice()
-        a = generate_input()
+    for x in range(num_of_questions()): # request how many questions user would like to practice 
+        (user_prompt()) # prompts the set of math problems user would like to practice
+        user_input = user_choice() # user input and validator 
+        a = generate_input() # after successful validation, generate two random numbers a and b
         b = generate_input()
-        create_arithmetic_problem_prompt(a, b, user_input)
-        user_answer = validate_user_answer()
-        if not check_answer(user_input, a, b, user_answer):
-            problem_solved += 1
+        create_arithmetic_problem_prompt(a, b, user_input) # generate an arithmetic problem based on values of a and b
+        user_answer = validate_user_answer() # user answer and validator
+        if not check_answer(user_input, a, b, user_answer): # check user input 
+            problem_solved += 1 # if incorrect, increment the problem then move to next question or end based on the number of questions already asked
         else:
-            num_correct += 1
-            problem_solved += 1
-            print("You got", num_correct, "out of", problem_solved, "questions correct.")
+            num_correct += 1 # give user points 
+            problem_solved += 1 # move to the next question or end loop based on the number of questions already asked
+            print("You got", num_correct, "out of", problem_solved, "questions correct.") # show current score
 
-    print("Your score is", num_correct / problem_solved * 100,"%")
+    print("Your score is", num_correct / problem_solved * 100,"%") # show how the user did overall
 
 
 if __name__ == "__main__":
     main()
-
